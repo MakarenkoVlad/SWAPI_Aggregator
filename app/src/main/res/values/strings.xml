@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SWAPI Aggregator</string>
+    <string name="search">Search</string>
+    <string name="favourites">Favourites</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="placeholder_name">PLACEHOLDER_NAME</string>
+    <string name="films">Films:</string>
+    <string name="hair_color">Hair color: %s</string>
+    <string name="skin_color">Skin color: %s</string>
+    <string name="mass">Mass: %s</string>
+    <string name="height">Height: %s</string>
+    <string name="birth_year">Birth year: %s</string>
+    <string name="gender">Gender: %s</string>
+    <string name="name">Name: %s</string>
+    <string name="unexcpected_server_troubles">Unexpected server troubles!</string>
+    <string name="turn_on_interner">Please turn ON your internet connection!</string>
+    <string name="film_cant_be_uploaded">Films can\'t be uploaded!</string>
+</resources>
