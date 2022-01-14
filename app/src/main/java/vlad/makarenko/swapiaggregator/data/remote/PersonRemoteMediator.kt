@@ -22,7 +22,7 @@ class PersonRemoteMediator(
         return try {
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> {
-                    if (state.isEmpty())
+                    if (personDao.rowsCount() == 0)
                         1
                     else
                         return MediatorResult.Success(true)
@@ -48,7 +48,6 @@ class PersonRemoteMediator(
             val peopleResponse =
                 swapiService.getPeople(loadKey, query)
             val people = PeopleConverter.fromPeopleResponse(peopleResponse)
-
             database.withTransaction {
                 pageKeyDao.insert(people.results.map { PageKey(it.id, people.next) })
                 personDao.insert(people.results)

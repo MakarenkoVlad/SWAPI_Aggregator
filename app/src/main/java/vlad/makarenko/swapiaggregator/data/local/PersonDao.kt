@@ -17,4 +17,7 @@ interface PersonDao : BaseDao<Person> {
 
     @Query("SELECT * FROM persons WHERE :id = id")
     fun getById(id: Int): Flow<Person>
+
+    @Query("SELECT COUNT(1) FROM persons")
+    suspend fun rowsCount(): Int
 }

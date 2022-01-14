@@ -9,12 +9,14 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import vlad.makarenko.swapiaggregator.R
 import vlad.makarenko.swapiaggregator.databinding.FragmentFavouritesBinding
 import vlad.makarenko.swapiaggregator.presentation.adapter.PeopleAdapter
 import vlad.makarenko.swapiaggregator.presentation.viewmodel.FavouritesViewModel
 import vlad.makarenko.swapiaggregator.utils.autoCleanedVariable
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 @AndroidEntryPoint
 class FavouritesFragment : Fragment(R.layout.fragment_favourites) {

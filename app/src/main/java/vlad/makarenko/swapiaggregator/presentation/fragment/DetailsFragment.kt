@@ -1,6 +1,5 @@
 package vlad.makarenko.swapiaggregator.presentation.fragment
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
@@ -11,16 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import retrofit2.HttpException
-import timber.log.Timber
 import vlad.makarenko.swapiaggregator.R
 import vlad.makarenko.swapiaggregator.databinding.FragmentDetailsBinding
 import vlad.makarenko.swapiaggregator.presentation.viewmodel.DetailsViewModel
-import vlad.makarenko.swapiaggregator.utils.setWrapContent
 import vlad.makarenko.swapiaggregator.utils.showSnackBar
 import java.net.UnknownHostException
 

@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import vlad.makarenko.swapiaggregator.data.PersonRepository
 import vlad.makarenko.swapiaggregator.data.model.Person
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(private val repository: PersonRepository) :
