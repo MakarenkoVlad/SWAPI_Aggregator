@@ -10,7 +10,7 @@ import vlad.makarenko.swapiaggregator.data.model.PersonResponse
 interface SWAPIService {
 
     @GET("people")
-    suspend fun getPeople(@Query("page") pageId: Int, @Query("search") query: String?): PeopleResponse
+    suspend fun getPeople(@Query("page") pageId: Int): PeopleResponse
 
     @GET("films/{id}")
     suspend fun getFilmById(@Path("id") id: Int): FilmResponse

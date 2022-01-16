@@ -5,10 +5,12 @@ import androidx.paging.PagingDataAdapter
 import vlad.makarenko.swapiaggregator.data.model.Person
 
 class PeoplePagingAdapter : PagingDataAdapter<Person, PersonViewHolder>(PersonDiffer) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PersonViewHolder.create(parent, listenerHolder)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        PersonViewHolder.create(parent, listenerHolder)
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        val model = getItem(position)
+        holder.bind(model, position)
     }
 
     private val listenerHolder = object : PeopleListenerHolder {

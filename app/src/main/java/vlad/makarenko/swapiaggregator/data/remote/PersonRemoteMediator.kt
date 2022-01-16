@@ -1,57 +1,30 @@
 package vlad.makarenko.swapiaggregator.data.remote
 
 import androidx.paging.* // ktlint-disable no-wildcard-imports
-import androidx.room.withTransaction
 import timber.log.Timber
-import vlad.makarenko.swapiaggregator.data.local.Database
-import vlad.makarenko.swapiaggregator.data.model.PageKey
+import vlad.makarenko.swapiaggregator.data.local.PersonDao
 import vlad.makarenko.swapiaggregator.data.model.Person
 import vlad.makarenko.swapiaggregator.domain.PeopleConverter
 
 @ExperimentalPagingApi
 class PersonRemoteMediator(
-    private val database: Database,
-    private val swapiService: SWAPIService,
-    private val query: String?
+    private val personDao: PersonDao,
+    private val swapiService: SWAPIService
 ) : RemoteMediator<Int, Person>() {
-
-    private val pageKeyDao = database.pageKeyDao()
-    private val personDao = database.personDao()
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Person>): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> {
-                    if (personDao.rowsCount() == 0)
-                        1
-                    else
-                        return MediatorResult.Success(true)
+                LoadType.REFRESH, LoadType.APPEND -> {
+                    personDao.rowsCount() / 10 + 1
                 }
                 LoadType.PREPEND -> return MediatorResult.Success(true)
-                LoadType.APPEND -> {
-                    val person = state.lastItemOrNull()
-                    if (person == null) {
-                        1
-                    } else {
-                        val pageKey = database.withTransaction {
-                            pageKeyDao.getPageKeyById(person.id)
-                        }
-                        if (pageKey == null) {
-                            1
-                        } else {
-                            pageKey.nextPageId ?: return MediatorResult.Success(true)
-                        }
-                    }
-                }
             }
 
             val peopleResponse =
-                swapiService.getPeople(loadKey, query)
+                swapiService.getPeople(loadKey)
             val people = PeopleConverter.fromPeopleResponse(peopleResponse)
-            database.withTransaction {
-                pageKeyDao.insert(people.results.map { PageKey(it.id, people.next) })
-                personDao.insert(people.results)
-            }
+            personDao.insert(people.results)
 
             MediatorResult.Success(endOfPaginationReached = people.next == null)
         } catch (e: Exception) {

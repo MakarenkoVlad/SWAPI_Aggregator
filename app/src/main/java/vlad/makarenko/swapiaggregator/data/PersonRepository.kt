@@ -1,11 +1,10 @@
 package vlad.makarenko.swapiaggregator.data
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import androidx.paging.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
-import vlad.makarenko.swapiaggregator.data.local.Database
+import kotlinx.coroutines.flow.map
+import vlad.makarenko.swapiaggregator.data.local.PersonDao
 import vlad.makarenko.swapiaggregator.data.model.Person
 import vlad.makarenko.swapiaggregator.data.remote.PersonRemoteMediator
 import vlad.makarenko.swapiaggregator.data.remote.SWAPIService
@@ -16,21 +15,21 @@ import javax.inject.Singleton
 @ExperimentalPagingApi
 @Singleton
 class PersonRepository @Inject constructor(
-    private val database: Database,
+    private val personDao: PersonDao,
     private val swapiService: SWAPIService,
     private val networkConnectionManager: NetworkConnectionManager
 ) : BaseRepository() {
-
-    private val personDao = database.personDao()
 
     fun getPeople(query: String?) =
         networkConnectionManager.isConnected.flatMapLatest { isConnected ->
             Pager(
                 config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-                remoteMediator = PersonRemoteMediator(database, swapiService, query)
+                remoteMediator = PersonRemoteMediator(personDao, swapiService)
             ) {
-                database.personDao().getByQuery(query ?: "")
-            }.flow
+                personDao.getByQuery()
+            }.flow.map { pagingData ->
+                pagingData.filter { person -> person.name.contains(query ?: "", ignoreCase = true) }
+            }
         }
 
     suspend fun updatePerson(person: Person) {
