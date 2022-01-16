@@ -17,8 +17,7 @@ import javax.inject.Inject
 @ExperimentalPagingApi
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val personRepository: PersonRepository) :
-    ViewModel() {
+class SearchViewModel @Inject constructor(private val personRepository: PersonRepository) : ViewModel() {
 
     private val query = MutableStateFlow<String?>(null)
 
