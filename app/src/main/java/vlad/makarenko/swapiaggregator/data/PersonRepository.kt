@@ -23,7 +23,7 @@ class PersonRepository @Inject constructor(
     fun getPeople(query: String?) =
         networkConnectionManager.isConnected.flatMapLatest { isConnected ->
             Pager(
-                config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+                config = PagingConfig(pageSize = 10),
                 remoteMediator = PersonRemoteMediator(personDao, swapiService)
             ) {
                 personDao.getByQuery()

@@ -10,7 +10,8 @@ class PeoplePagingAdapter : PagingDataAdapter<Person, PersonViewHolder>(PersonDi
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val model = getItem(position)
-        holder.bind(model, position)
+        if (model != null)
+            holder.bind(model, position)
     }
 
     private val listenerHolder = object : PeopleListenerHolder {
